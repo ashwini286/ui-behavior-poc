@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine 💖</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ff6b9d, #fec5e5, #ffa8cc, #ff85b3);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3),
+                0 0 60px rgba(255, 182, 193, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 105, 180, 0.4),
+                0 0 80px rgba(255, 182, 193, 0.3);
+        }
+
+        /* Floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0;
+            animation: float 8s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* Title animation */
+        .animated-title {
+            background: linear-gradient(135deg, #ff006e, #ff5e8a, #ff1744);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Button styles */
+        .btn-yes {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-yes:active {
+            transform: translateY(0);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-no:hover {
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+
+        /* Result animation */
+        .result-enter {
+            animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Screen shake effect */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-8px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(8px, 0, 0);
+            }
+        }
+
+        /* Particle explosion */
+        .explosion-particle {
+            position: fixed;
+            font-size: 40px;
+            pointer-events: none;
+            z-index: 10000;
+            animation: explode 2s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(720deg);
+            }
+        }
+
+        /* Background color flash */
+        .color-flash {
+            animation: colorFlash 1s ease-out;
+        }
+
+        @keyframes colorFlash {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.5) saturate(1.5);
+            }
+        }
+
+        /* Scale burst effect */
+        .scale-burst {
+            animation: scaleBurst 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleBurst {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg flex items-center justify-center h-screen relative">
+
+    <!-- Floating hearts background -->
+    <div id="hearts-container"></div>
+
+    <!-- Card -->
+    <div id="card"
+        class="glass-card p-10 rounded-3xl text-center w-[90%] max-w-[600px] min-h-[320px] flex flex-col justify-center relative">
+        <!-- Sparkles -->
+        <div class="sparkle" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+        <div class="sparkle" style="top: 20%; right: 20%; animation-delay: 1s;"></div>
+        <div class="sparkle" style="bottom: 15%; left: 25%; animation-delay: 2s;"></div>
+        <div class="sparkle" style="bottom: 25%; right: 15%; animation-delay: 1.5s;"></div>
+
+        <h1 class="text-4xl md:text-5xl font-bold animated-title mb-8 font-['Pacifico']">
+            Hii Sumit 💖
+        </h1>
+        <p class="text-2xl md:text-3xl font-semibold text-white mb-10 drop-shadow-lg">
+            Will you be my Valentine?
+        </p>
+
+        <div class="flex justify-center gap-6 items-center">
+            <button id="yesBtn"
+                class="btn-yes text-white px-8 py-3 rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition-all">
+                Yes ❤️
+            </button>
+
+            <div class="relative">
+                <button id="noBtn" class="btn-no text-white px-8 py-3 rounded-full font-bold text-lg">
+                    No 😈
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particle container for explosions -->
+    <div id="particle-container"></div>
+
+    <!-- Result Section -->
+    <div id="result" class="hidden text-center">
+        <div class="result-enter glass-card p-10 rounded-3xl max-w-[600px]">
+            <div class="mb-6">
+                <div class="text-7xl mb-4 animate-bounce">💖</div>
+                <!-- <img src="assets/wow.gif" alt="Wow" class="w-48 md:w-64 mx-auto mb-6 rounded-2xl shadow-2xl" /> -->
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-white drop-shadow-2xl font-['Pacifico'] mb-4 animate-pulse">
+                Yayyy 💕 I knew it!
+            </h2>
+            <p class="text-xl md:text-2xl text-white font-semibold drop-shadow-lg">
+                You made my day! ✨
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

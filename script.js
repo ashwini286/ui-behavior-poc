@@ -122,3 +122,38 @@ yesBtn.addEventListener("click", () => {
         }, 400);
     }, 600);
 });
+
+// Gift button click handler
+const giftBtn = document.getElementById("giftBtn");
+const gifts = document.getElementById("gifts");
+
+giftBtn.addEventListener("click", () => {
+    // Hide the result section
+    result.classList.add("hidden");
+
+    // Show gifts section with animation
+    gifts.classList.remove("hidden");
+
+    // Add entrance animation
+    setTimeout(() => {
+        gifts.querySelector('.result-enter').classList.add('scale-burst');
+    }, 100);
+});
+
+// Check if page loaded with #gifts hash (coming from gift pages)
+window.addEventListener('load', () => {
+    if (window.location.hash === '#gifts') {
+        // Hide card and result sections
+        card.classList.add('hidden');
+        result.classList.add('hidden');
+
+        // Show gifts section
+        gifts.classList.remove('hidden');
+
+        // Add entrance animation
+        setTimeout(() => {
+            gifts.querySelector('.result-enter').classList.add('scale-burst');
+        }, 100);
+    }
+});
+

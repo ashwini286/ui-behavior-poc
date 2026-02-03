@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Quiz 💖</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ff6b9d, #fec5e5, #ffa8cc, #ff85b3);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3),
+                0 0 60px rgba(255, 182, 193, 0.2);
+        }
+
+        /* Option styles */
+        .option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scale(1.05);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Result animation */
+        .scale-enter {
+            animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+
+    <!-- Quiz Container -->
+    <div id="quizContainer" class="glass-card p-8 md:p-12 rounded-3xl w-full max-w-[800px]">
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white text-center mb-4 font-['Pacifico']">
+                Love Quiz 💖
+            </h1>
+            <p class="text-white text-center text-lg mb-6">Answer these romantic questions!</p>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar mb-2">
+                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <p class="text-white text-sm text-center">
+                Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
+            </p>
+        </div>
+
+        <!-- Question Section -->
+        <div id="questionSection" class="fade-in">
+            <h2 id="questionText" class="text-xl md:text-2xl font-semibold text-white mb-6"></h2>
+
+            <!-- Options -->
+            <div id="optionsContainer" class="space-y-4 mb-8">
+                <!-- Options will be dynamically added here -->
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center">
+                <button id="prevBtn"
+                    class="btn-primary text-white px-6 py-3 rounded-full font-bold opacity-50 cursor-not-allowed"
+                    disabled>
+                    ← Previous
+                </button>
+                <button id="nextBtn" class="btn-primary text-white px-8 py-3 rounded-full font-bold">
+                    Next →
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden text-center">
+            <div class="scale-enter">
+                <div class="text-7xl mb-6">💖</div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-['Pacifico']">
+                    Quiz Complete!
+                </h2>
+                <div class="glass-card p-6 rounded-2xl mb-6">
+                    <p class="text-2xl font-bold text-white mb-2">Your Score:</p>
+                    <p class="text-5xl font-bold text-white"><span id="score">0</span>/5</p>
+                </div>
+                <p id="resultMessage" class="text-xl text-white font-semibold mb-8"></p>
+                <button onclick="window.location.href='index.html#gifts'"
+                    class="btn-primary text-white px-8 py-3 rounded-full font-bold">
+                    Back to Gifts 🎁
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="gift1.js"></script>
+</body>
+
+</html>

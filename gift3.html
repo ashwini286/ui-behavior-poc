@@ -114,7 +114,7 @@
         /* Photo Gallery Grid */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
             padding: 20px;
         }
@@ -122,7 +122,7 @@
         /* Polaroid Card Style */
         .memory-card {
             background: white;
-            padding: 20px 20px 60px 20px;
+            padding: 15px 15px 45px 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
@@ -190,7 +190,7 @@
 
         .image-container {
             width: 100%;
-            height: 300px;
+            height: 220px;
             overflow: hidden;
             background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
             display: flex;
@@ -217,10 +217,10 @@
         }
 
         .caption {
-            margin-top: 20px;
+            margin-top: 15px;
             text-align: center;
             font-family: 'Caveat', cursive;
-            font-size: 1.8em;
+            font-size: 1.5em;
             color: #333;
             line-height: 1.4;
         }
@@ -373,7 +373,7 @@
             }
 
             .image-container {
-                height: 250px;
+                height: 200px;
             }
         }
     </style>
@@ -391,75 +391,78 @@
 
         <div class="gallery" id="gallery">
             <!-- Memory Card 1 -->
-            <div class="memory-card" onclick="openLightbox(0)">
+            <div class="memory-card">
                 <div class="image-container">
-                    <div class="placeholder">📷</div>
+                    <div class="placeholder">
+                        <img src="https://media.istockphoto.com/id/636379014/photo/hands-forming-a-heart-shape-with-sunset-silhouette.jpg?s=612x612&w=0&k=20&c=CgjWWGEasjgwia2VT7ufXa10azba2HXmUDe96wZG8F0="
+                            alt="">
+                    </div>
                 </div>
                 <div class="caption">Our First Adventure Together</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 2 -->
-            <div class="memory-card" onclick="openLightbox(1)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">💑</div>
                 </div>
                 <div class="caption">That Special Day</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 3 -->
-            <div class="memory-card" onclick="openLightbox(2)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">🌅</div>
                 </div>
                 <div class="caption">Sunset Moments</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 4 -->
-            <div class="memory-card" onclick="openLightbox(3)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">🎂</div>
                 </div>
                 <div class="caption">Celebration Time</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 5 -->
-            <div class="memory-card" onclick="openLightbox(4)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">❤️</div>
                 </div>
                 <div class="caption">Just Us</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 6 -->
-            <div class="memory-card" onclick="openLightbox(5)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">🌟</div>
                 </div>
                 <div class="caption">Making Memories</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 7 -->
-            <div class="memory-card" onclick="openLightbox(6)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">💝</div>
                 </div>
                 <div class="caption">Forever Moments</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
 
             <!-- Memory Card 8 -->
-            <div class="memory-card" onclick="openLightbox(7)">
+            <div class="memory-card">
                 <div class="image-container">
                     <div class="placeholder">✨</div>
                 </div>
                 <div class="caption">More to Come...</div>
-                <div class="date">Coming Soon...</div>
+                <!-- <div class="date">Coming Soon...</div> -->
             </div>
         </div>
     </div>
@@ -470,7 +473,7 @@
     </div>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox" id="lightbox">
         <span class="lightbox-close">×</span>
         <div class="lightbox-content" onclick="event.stopPropagation()">
             <img id="lightboxImage" src="" alt="Memory">
@@ -493,14 +496,14 @@
 
         // Lightbox functionality
         const memories = [
-            { caption: 'Our First Adventure Together', date: 'Coming Soon...' },
-            { caption: 'That Special Day', date: 'Coming Soon...' },
-            { caption: 'Sunset Moments', date: 'Coming Soon...' },
-            { caption: 'Celebration Time', date: 'Coming Soon...' },
-            { caption: 'Just Us', date: 'Coming Soon...' },
-            { caption: 'Making Memories', date: 'Coming Soon...' },
-            { caption: 'Forever Moments', date: 'Coming Soon...' },
-            { caption: 'More to Come...', date: 'Coming Soon...' }
+            { caption: 'Our First Adventure Together' },
+            { caption: 'That Special Day' },
+            { caption: 'Sunset Moments' },
+            { caption: 'Celebration Time' },
+            { caption: 'Just Us' },
+            { caption: 'Making Memories' },
+            { caption: 'Forever Moments', },
+            { caption: 'More to Come...', }
         ];
 
         function openLightbox(index) {

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forever & Always 💖</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* Animated hearts background */
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            animation: floatUp 6s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 0.8;
+            }
+
+            85% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Main content */
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            padding: 40px;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Infinity heart symbol */
+        .infinity-heart {
+            font-size: 80px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .name-left,
+        .name-right {
+            background: linear-gradient(135deg, #fff 0%, #ffe6f0 50%, #ffc1e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
+            }
+        }
+
+        .infinity-symbol {
+            color: #ff6b9d;
+            font-size: 1.2em;
+            animation: rotate360 4s linear infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 157, 0.8));
+        }
+
+        @keyframes rotate360 {
+
+            0%,
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.2);
+            }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5em;
+            color: white;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 40px rgba(255, 255, 255, 0.5),
+                    0 0 60px rgba(255, 255, 255, 0.3);
+            }
+
+            50% {
+                text-shadow: 0 0 60px rgba(255, 255, 255, 0.8),
+                    0 0 90px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        .message {
+            font-size: 1.5em;
+            color: white;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 300;
+        }
+
+        .message strong {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        /* Promise box */
+        .promise-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            animation: slideUp 1.5s ease 0.5s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .promise-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .promise-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .promise-list li {
+            font-size: 1.2em;
+            color: white;
+            margin: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            text-align: left;
+        }
+
+        .promise-list li::before {
+            content: "💝";
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+        }
+
+        /* Signature */
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5em;
+            color: white;
+            margin-top: 50px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty));
+            }
+        }
+
+        /* Interactive button */
+        .final-button {
+            margin-top: 50px;
+            padding: 18px 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 60px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        .final-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.5);
+        }
+
+        .final-button:active {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em;
+            }
+
+            .message {
+                font-size: 1.2em;
+            }
+
+            .promise-title {
+                font-size: 2em;
+            }
+
+            .promise-list li {
+                font-size: 1em;
+            }
+
+            .infinity-heart {
+                font-size: 50px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="content">
+        <div class="infinity-heart">
+            <span class="name-left">Sumit</span>
+            <span class="infinity-symbol">∞</span>
+            <span class="name-right">Assu</span>
+        </div>
+
+        <h1>This is Just the Beginning...</h1>
+
+        <p class="message">
+            Thank you for taking this journey with me through our memories, our love, and our dreams.
+            Every gift was a piece of my heart, carefully wrapped just for you.
+        </p>
+
+        <div class="promise-box">
+            <div class="promise-title">My Promise to You</div>
+            <ul class="promise-list">
+                <li>To love you more with each passing day</li>
+                <li>To be your partner in every adventure</li>
+                <li>To support your dreams as if they were my own</li>
+                <li>To make you laugh even on the hardest days</li>
+                <li>To cherish every moment we share together</li>
+                <li>To build a beautiful future, side by side</li>
+            </ul>
+        </div>
+
+        <p class="message">
+            <strong>You are my yesterday, my today, and all of my tomorrows.</strong><br>
+            I fall in love with you more every single day. 💕
+        </p>
+
+        <div class="message" style="font-size: 1.8em; margin-top: 40px;">
+            Forever Yours,<br>
+            <span style="font-family: 'Dancing Script', cursive; font-size: 1.3em;">Assu ❤️</span>
+        </div>
+
+        <button class="final-button" onclick="celebrate()">Celebrate Our Love! 🎉</button>
+    </div>
+
+    <script>
+        // Create floating hearts
+        const heartsContainer = document.getElementById('heartsContainer');
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 4 + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        // Create hearts continuously
+        setInterval(createHeart, 300);
+
+        // Initial hearts
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 200);
+        }
+
+        // Fireworks celebration
+        function createFirework(x, y) {
+            const colors = ['#ff6b9d', '#fec5e5', '#ffa8cc', '#ff85b3', '#ffffff', '#ffe6f0'];
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                firework.style.left = x + 'px';
+                firework.style.top = y + 'px';
+
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 100 + Math.random() * 150;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                firework.style.setProperty('--tx', tx + 'px');
+                firework.style.setProperty('--ty', ty + 'px');
+
+                document.body.appendChild(firework);
+
+                setTimeout(() => firework.remove(), 1000);
+            }
+        }
+
+        // Celebration function
+        function celebrate() {
+            // Multiple fireworks
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    createFirework(x, y);
+                }, i * 300);
+            }
+
+            // Extra heart burst
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 50);
+            }
+
+            // Change button text
+            const btn = event.target;
+            btn.textContent = 'I Love You! 💖';
+            setTimeout(() => {
+                btn.textContent = 'Celebrate Our Love! 🎉';
+            }, 2000);
+        }
+
+        // Random fireworks every few seconds
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * (window.innerHeight * 0.5);
+                createFirework(x, y);
+            }
+        }, 3000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Gift 💖</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ff6b9d, #fec5e5, #ffa8cc, #ff85b3);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3),
+                0 0 60px rgba(255, 182, 193, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 105, 180, 0.4),
+                0 0 80px rgba(255, 182, 193, 0.3);
+        }
+
+        /* Floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0;
+            animation: float 8s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* Entry animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Back button */
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+    </style>
+</head>
+
+<body class="gradient-bg flex items-center justify-center min-h-screen relative">
+
+    <!-- Floating hearts background -->
+    <div id="hearts-container"></div>
+
+    <!-- Gifts Section -->
+    <div class="text-center fade-in w-full px-4 py-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-white drop-shadow-2xl font-['Pacifico'] mb-8 animate-pulse">
+            Choose Your Gift! 🎁
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1200px] mx-auto px-4 mb-8">
+            <!-- Gift Card 1 -->
+            <div class="glass-card p-8 rounded-3xl cursor-pointer hover:scale-105 transition-all"
+                onclick="window.location.href='gift1.html'">
+                <div class="text-6xl mb-4">🎁</div>
+                <h3 class="text-2xl font-bold text-white mb-3 font-['Pacifico']">Gift 1</h3>
+                <p class="text-white text-lg">Love Quiz - Test your romantic heart!</p>
+            </div>
+
+            <!-- Gift Card 2 -->
+            <div class="glass-card p-8 rounded-3xl cursor-pointer hover:scale-105 transition-all"
+                onclick="window.location.href='gift2.html'">
+                <div class="text-6xl mb-4">💝</div>
+                <h3 class="text-2xl font-bold text-white mb-3 font-['Pacifico']">Gift 2</h3>
+                <p class="text-white text-lg">Something made with love!</p>
+            </div>
+
+            <!-- Gift Card 3 -->
+            <div class="glass-card p-8 rounded-3xl cursor-pointer hover:scale-105 transition-all"
+                onclick="window.location.href='gift3.html'">
+                <div class="text-6xl mb-4">📸</div>
+                <h3 class="text-2xl font-bold text-white mb-3 font-['Pacifico']">Gift 3</h3>
+                <p class="text-white text-lg">Our Beautiful Memories!</p>
+            </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <button onclick="window.location.href='index.html'"
+            class="back-btn text-white px-10 py-3 rounded-full font-bold text-lg mt-6">
+            ← Back to Home
+        </button>
+    </div>
+
+    <script>
+        // Create floating hearts
+        const container = document.getElementById('hearts-container');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 8 + 's';
+            container.appendChild(heart);
+        }
+    </script>
+</body>
+
+</html>

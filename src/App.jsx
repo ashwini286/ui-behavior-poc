@@ -291,10 +291,10 @@ export default function App() {
       {/* ── Main content with room-enter animation ── */}
       {entered && (
         <div className="app-content-wrapper">
-          <div key={step} className="room-enter" style={{ width:'100%', display:'flex', justifyContent:'center' }}>
+          <div key={step} className="room-enter" style={{ width:'100%', display:'flex', justifyContent:'center', overflowY: step === 3 ? 'auto' : 'hidden', maxHeight: step === 3 ? '100%' : undefined }}>
             {step === 1 && <WelcomeScreen onComplete={() => setStep(2)} />}
             {step === 2 && <CakeRoom     onComplete={() => setStep(3)} />}
-            {step === 3 && <QuizRoom />}
+            {step === 3 && <QuizRoom onComplete={() => setStep(3)} />}
           </div>
         </div>
       )}

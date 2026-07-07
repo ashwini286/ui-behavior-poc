@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
+import heartSunset from '../assets/heart_sunset.png';
 
 // ─── Quiz Questions ────────────────────────────────────────────
 const QUESTIONS = [
@@ -38,12 +39,62 @@ function getScoreMsg(score) {
 
 // ─── Gallery Memories ──────────────────────────────────────────
 const MEMORIES = [
-  { id: 1, label: "Pehli Mulakat 🌟", emoji: "🌟", gradient: "linear-gradient(135deg,#ff6b6b,#ee5a24)", caption: "Woh pehla din jo main kabhi nahi bhoolunga..." },
-  { id: 2, label: "Hamare Haseen Pal 💕", emoji: "💕", gradient: "linear-gradient(135deg,#a29bfe,#6c5ce7)", caption: "Tere saath har pal khaas lagta hai." },
-  { id: 3, label: "Sunhara Waqt ✨", emoji: "✨", gradient: "linear-gradient(135deg,#fd79a8,#e84393)", caption: "Teri muskaan meri duniya roshaan karti hai." },
-  { id: 4, label: "Chand Taare 🌙", emoji: "🌙", gradient: "linear-gradient(135deg,#0984e3,#74b9ff)", caption: "Raat ko tere saath baatein, subah bhi tujhe yaad karna." },
-  { id: 5, label: "Dil ki Baat 💌", emoji: "💌", gradient: "linear-gradient(135deg,#00b894,#55efc4)", caption: "Jo dil mein hai woh alfaazon mein kaise kahein?" },
-  { id: 6, label: "Humesha Saath 🤝", emoji: "🤝", gradient: "linear-gradient(135deg,#e17055,#fdcb6e)", caption: "Har mushkil mein tera haath thamna chahta hoon." },
+  { 
+    id: 1, 
+    label: "Our First Adventure Together", 
+    img: heartSunset, 
+    caption: "Our first trip together... Holding hands, watching the sunset, and realizing that you are my favorite adventure. 🌅",
+    rotateClass: "polaroid-rotate-L1"
+  },
+  { 
+    id: 2, 
+    label: "That Special Day", 
+    emoji: "💑", 
+    caption: "The day we started this beautiful journey. A moment locked in time, filled with giggles, nervous smiles, and so much love. 💕",
+    rotateClass: "polaroid-rotate-R1"
+  },
+  { 
+    id: 3, 
+    label: "Sunset Moments", 
+    emoji: "🌅", 
+    caption: "Watching the sun paint the sky in shades of gold and pink. With you, every sunset feels like a promise of a beautiful tomorrow. 🧡",
+    rotateClass: "polaroid-rotate-L2"
+  },
+  { 
+    id: 4, 
+    label: "Celebration Time", 
+    emoji: "🎂", 
+    caption: "Every milestone, big or small, is worth celebrating when you are by my side. Here's to making every moment special! 🎉",
+    rotateClass: "polaroid-rotate-R2"
+  },
+  { 
+    id: 5, 
+    label: "Just Us", 
+    emoji: "❤️", 
+    caption: "In a world full of noise, you are my peace. Just you and me, laughing, caring, and loving each other every single day. 💖",
+    rotateClass: "polaroid-rotate-L3"
+  },
+  { 
+    id: 6, 
+    label: "Making Memories", 
+    emoji: "⭐", 
+    caption: "Collect moments, not things. From late-night talks to silly jokes, every little memory with you is a star in my sky. ✨",
+    rotateClass: "polaroid-rotate-R3"
+  },
+  { 
+    id: 7, 
+    label: "Forever Moments", 
+    emoji: "💝", 
+    caption: "A bond that grows stronger with every passing second. You hold the key to my heart, forever and always. 💞",
+    rotateClass: "polaroid-rotate-L4"
+  },
+  { 
+    id: 8, 
+    label: "More to Come...", 
+    emoji: "✨", 
+    caption: "This is just the beginning. I can't wait to write the rest of our story together. So many more chapters of love, laughter, and adventures await! 🌸",
+    rotateClass: "polaroid-rotate-R4"
+  },
 ];
 
 // ─── Main Component ────────────────────────────────────────────
@@ -368,7 +419,7 @@ Sent with love on Ashu's Birthday 🌸`;
         <p className="feelings-subtitle">A little letter, written just for you 🌸</p>
       </div>
 
-      <div className="letter-scroll">
+      <div className="letter-scroll" style={{ marginBottom: '24px' }}>
         <div className="letter-inner">
           <p className="letter-date">Tumhare Birthday par,</p>
           <p className="letter-salutation">Mere Pyaare Baby,</p>
@@ -393,9 +444,8 @@ Sent with love on Ashu's Birthday 🌸`;
         </div>
       </div>
 
-      <div className="reply-section">
-        <p className="reply-label">💬 Ab tumhari baari — Quiz tab mein jawab do!</p>
-        <p className="reply-hint">Quiz → Complete karo → Apni feelings likho → Ashu ko bhejo 💌</p>
+      <div style={{ marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px' }}>
+        {renderFeedbackForm()}
       </div>
     </div>
   );
@@ -403,42 +453,93 @@ Sent with love on Ashu's Birthday 🌸`;
   // ============================================================
   // TAB: GALLERY
   // ============================================================
-  const renderGallery = () => (
-    <div className="tq-section gallery-section">
-      <h2 className="gallery-title">📸 Hamare Pal</h2>
-      <p className="gallery-subtitle">Kuch khaas yaadein tumhare liye 💕</p>
-      <div className="gallery-grid">
-        {MEMORIES.map(m => (
-          <div key={m.id} className="gallery-card" onClick={() => setOpenMemory(m)} style={{ background: m.gradient }}>
-            <div className="gallery-card-inner">
-              <span className="gallery-emoji">{m.emoji}</span>
-              <p className="gallery-card-label">{m.label}</p>
-            </div>
-            <div className="gallery-card-overlay">
-              <p className="gallery-card-caption">"{m.caption}"</p>
-              <span className="gallery-view-btn">View ✨</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="gallery-add-hint">
-        <span>📁</span>
-        <p>Ashu apni photos bhi yahan add kar sakti hai! 🌸</p>
-      </div>
-    </div>
-  );
+  const renderGallery = () => {
+    // Generate some positions for background hearts
+    const heartPositions = [
+      { top: '10%', left: '8%' },
+      { top: '25%', left: '88%' },
+      { top: '45%', left: '3%' },
+      { top: '70%', left: '92%' },
+      { top: '85%', left: '12%' },
+      { top: '60%', left: '82%' },
+      { top: '35%', left: '15%' },
+      { top: '15%', left: '78%' }
+    ];
 
-  // Lightbox
+    return (
+      <div className="tq-section gallery-section">
+        {/* Floating background hearts */}
+        <div className="gallery-bg-hearts">
+          {heartPositions.map((pos, idx) => (
+            <span 
+              key={idx} 
+              className="gallery-bg-heart" 
+              style={{ 
+                top: pos.top, 
+                left: pos.left, 
+                animationDelay: `${idx * 0.5}s`,
+                fontSize: `${1 + Math.random() * 0.5}rem`
+              }}
+            >
+              💜
+            </span>
+          ))}
+        </div>
+
+        <h2 className="gallery-title">
+          Our Beautiful Memories
+          <span className="gallery-title-hearts">💜💜</span>
+        </h2>
+        <p className="gallery-subtitle">"Every moment with you is a treasure I hold close to my heart"</p>
+        
+        <div className="gallery-grid">
+          {MEMORIES.map(m => (
+            <div 
+              key={m.id} 
+              className={`polaroid-card ${m.rotateClass}`} 
+              onClick={() => setOpenMemory(m)}
+            >
+              {/* Polaroid sticky tape effect */}
+              <div className="polaroid-tape" />
+
+              {/* Polaroid image container */}
+              <div className="polaroid-img-container">
+                {m.img ? (
+                  <img src={m.img} alt={m.label} className="polaroid-img" />
+                ) : (
+                  <span className="polaroid-emoji">{m.emoji}</span>
+                )}
+              </div>
+
+              {/* Caption */}
+              <p className="polaroid-caption">{m.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="gallery-add-hint">
+          <span>📁</span>
+          <p>Ashu apni photos bhi yahan add kar sakti hai! 🌸</p>
+        </div>
+      </div>
+    );
+  };
+
+  // Polaroid Lightbox
   const renderLightbox = () => openMemory && (
     <div className="lightbox-overlay" onClick={() => setOpenMemory(null)}>
-      <div className="lightbox-box" onClick={e => e.stopPropagation()}>
-        <button className="lightbox-close" onClick={() => setOpenMemory(null)}>✕</button>
-        <div className="lightbox-emoji-bg" style={{ background: openMemory.gradient }}>
-          <span style={{ fontSize: '5rem' }}>{openMemory.emoji}</span>
+      <div className="lightbox-box-polaroid" onClick={e => e.stopPropagation()}>
+        <button className="lightbox-close-btn" onClick={() => setOpenMemory(null)}>✕</button>
+        <div className="lightbox-img-wrap">
+          {openMemory.img ? (
+            <img src={openMemory.img} alt={openMemory.label} />
+          ) : (
+            <span className="lightbox-emoji-wrap">{openMemory.emoji}</span>
+          )}
         </div>
-        <div className="lightbox-content">
-          <h3 className="lightbox-title">{openMemory.label}</h3>
-          <p className="lightbox-caption">"{openMemory.caption}"</p>
+        <div className="lightbox-details">
+          <h3 className="lightbox-title-p">{openMemory.label}</h3>
+          <p className="lightbox-caption-p">"{openMemory.caption}"</p>
         </div>
       </div>
     </div>
@@ -446,7 +547,7 @@ Sent with love on Ashu's Birthday 🌸`;
 
   // ============================================================
   return (
-    <div className="tab-room">
+    <div className={`tab-room ${tab === 'gallery' ? 'tab-room-gallery' : ''}`}>
       {/* 3-Tab Switcher */}
       <div className="tab-switcher">
         {TABS.map(t => (

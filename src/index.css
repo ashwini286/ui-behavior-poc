@@ -831,59 +831,474 @@ html, body, #root {
 }
 .btn-next:hover { transform: scale(1.06) translateY(-2px); }
 
+
+
 /* ============================================================
-   QUIZ ROOM
+   3-TAB ROOM LAYOUT
    ============================================================ */
-.quiz-room { width: 100%; max-width: 540px; }
+
+/* Outer wrapper — controls width, used by quiz step */
+.tab-room {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Tab Switcher ── */
+.tab-switcher {
+  position: relative;
+  display: flex;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  border-bottom: none;
+}
+
+/* Sliding indicator */
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  border-radius: 3px 3px 0 0;
+  transition: left 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 0 10px rgba(255,64,129,0.6);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 12px 8px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: var(--sans);
+  position: relative;
+  z-index: 1;
+}
+
+.tab-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.tab-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  transition: color 0.25s ease;
+}
+
+.tab-btn:hover .tab-icon  { transform: scale(1.15); }
+.tab-btn:hover .tab-label { color: rgba(255,255,255,0.6); }
+
+.tab-btn-active .tab-label {
+  color: white;
+}
+.tab-btn-active .tab-icon {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px rgba(255,64,129,0.7));
+}
+
+/* ── Tab Content Card ── */
+.tab-content-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: none;
+  border-radius: 0 0 24px 24px;
+  padding: clamp(16px, 2.5vh, 26px) clamp(16px, 4vw, 28px);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(255,255,255,0.04);
+  animation: tabSlideIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+@keyframes tabSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Thin scrollbar inside tab */
+.tab-content-card::-webkit-scrollbar { width: 3px; }
+.tab-content-card::-webkit-scrollbar-thumb { background: var(--pink-dim); border-radius: 3px; }
+
+/* Inner section padding reset */
+.tq-section { width: 100%; }
+
+/* ============================================================
+   QUIZ TAB — reuse existing quiz styles, just adjust context
+   ============================================================ */
+.quiz-room { width: 100%; max-width: 560px; }
 
 .quiz-card {
   width: 100%;
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 28px;
-  padding: clamp(22px, 4vh, 38px) clamp(22px, 5vw, 38px);
-  backdrop-filter: blur(24px);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.03);
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
   text-align: center;
+}
+
+/* ============================================================
+   FEELINGS TAB — Love Letter
+   ============================================================ */
+.feelings-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.feelings-header { text-align: center; margin-bottom: 18px; }
+
+.feelings-big-heart {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 8px;
+  animation: heartbeat 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(255,64,129,0.7));
+}
+
+.feelings-title {
+  font-family: var(--script);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff 20%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+.feelings-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+/* Scroll / parchment letter */
+.letter-scroll {
+  width: 100%;
+  background: linear-gradient(145deg, rgba(255,64,129,0.07), rgba(179,64,255,0.05));
+  border: 1px solid rgba(255,64,129,0.2);
+  border-radius: 16px;
+  padding: 22px 20px;
   position: relative;
   overflow: hidden;
+  margin-bottom: 16px;
 }
 
-/* purple glow behind quiz card */
-.quiz-card::before {
-  content: '';
+/* Decorative corner flourish */
+.letter-scroll::before, .letter-scroll::after {
+  content: '❧';
   position: absolute;
-  top: -60px; left: 50%;
-  transform: translateX(-50%);
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(179,64,255,0.12) 0%, transparent 70%);
-  pointer-events: none;
+  font-size: 1.4rem;
+  opacity: 0.2;
+  color: var(--pink);
+}
+.letter-scroll::before { top: 10px; left: 14px; }
+.letter-scroll::after  { bottom: 10px; right: 14px; transform: rotate(180deg); }
+
+.letter-inner { position: relative; z-index: 1; }
+
+.letter-date {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
+  font-style: italic;
 }
 
-.quiz-icon {
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+.letter-salutation {
+  font-family: var(--script);
+  font-size: 1.3rem;
+  color: var(--pink);
   margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.letter-para {
+  font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+  color: rgba(255,255,255,0.75);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+
+.letter-closing {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.letter-signature {
+  font-family: var(--script);
+  font-size: 1.6rem;
+  color: var(--pink);
+  font-weight: 700;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 8px rgba(255,64,129,0.4));
+}
+
+.reply-section {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.reply-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+
+.reply-hint {
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+}
+
+/* ============================================================
+   GALLERY TAB
+   ============================================================ */
+.gallery-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-title {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 20%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.gallery-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 420px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.gallery-card {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.gallery-card:hover {
+  transform: scale(1.06) translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.gallery-card:hover .gallery-card-overlay {
+  opacity: 1;
+}
+
+.gallery-card-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+}
+
+.gallery-emoji {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+
+.gallery-card-label {
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  line-height: 1.2;
+}
+
+.gallery-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  padding: 10px;
+  gap: 8px;
+}
+
+.gallery-card-caption {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.gallery-view-btn {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--pink);
+  padding: 4px 10px;
+  border: 1px solid var(--pink);
+  border-radius: 20px;
+}
+
+.gallery-add-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 100%;
+}
+
+.gallery-add-hint span { font-size: 1.2rem; }
+
+.gallery-add-hint p {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+
+/* ── Lightbox ── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: curtainIn 0.25s ease forwards;
+}
+
+.lightbox-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  max-width: 340px;
+  width: 100%;
+  animation: popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+  position: relative;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: rgba(0,0,0,0.4);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,64,129,0.5); }
+
+.lightbox-emoji-bg {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-content {
+  padding: 18px 20px 22px;
+  text-align: center;
+}
+
+.lightbox-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.lightbox-caption {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ── Keep old quiz card styles working ── */
+.quiz-icon {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  margin-bottom: 12px;
   display: block;
   animation: floatBob 3s ease-in-out infinite;
   filter: drop-shadow(0 0 12px rgba(255,215,0,0.5));
 }
 
 .quiz-heading {
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
   font-weight: 800;
   background: linear-gradient(135deg, #ffd700, #ffb300);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 8px rgba(255,215,0,0.3));
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 6px rgba(255,215,0,0.3));
 }
 
 .quiz-desc {
   font-size: 0.85rem;
   color: var(--muted);
   line-height: 1.65;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   max-width: 380px;
   margin-left: auto;
   margin-right: auto;
@@ -893,25 +1308,16 @@ html, body, #root {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 14px;
-  padding: 14px 18px;
+  padding: 12px 16px;
   text-align: left;
-  max-width: 340px;
-  margin: 0 auto 24px;
+  max-width: 320px;
+  margin: 0 auto 20px;
 }
 
-.quiz-rules-title {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: rgba(255,144,175,0.85);
-  margin-bottom: 8px;
-}
+.quiz-rules-title { font-size: 0.78rem; font-weight: 600; color: rgba(255,144,175,0.85); margin-bottom: 8px; }
+.quiz-rules ul   { list-style: disc; padding-left: 18px; }
+.quiz-rules li   { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
 
-.quiz-rules ul { list-style: disc; padding-left: 18px; }
-.quiz-rules li {
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
 
 .btn-quiz-start {
   display: inline-flex;

@@ -54,15 +54,16 @@ export default function QuizRoom() {
   const [quizPhase, setQuizPhase] = useState('intro');
   const [qIndex, setQIndex]       = useState(0);
   const [selected, setSelected]   = useState(null);
-  const [answers, setAnswers]      = useState([]);
-  const [score, setScore]          = useState(0);
+  const [answers, setAnswers]     = useState([]);
+  const [score, setScore]         = useState(0);
 
   // Feedback state
-  const [giftMsg, setGiftMsg]           = useState('');
-  const [togetherMsg, setTogetherMsg]   = useState('');
+  const [ashuFeelings, setAshuFeelings] = useState('');
+  const [giftFeelings, setGiftFeelings] = useState('');
   const [loveMsg, setLoveMsg]           = useState('');
   const [sending, setSending]           = useState(false);
   const [sent, setSent]                 = useState(false);
+  const [errors, setErrors]             = useState({});
 
   // Gallery
   const [openMemory, setOpenMemory] = useState(null);
@@ -87,25 +88,182 @@ export default function QuizRoom() {
     else setQuizPhase('result');
   };
 
+  // ── Validate feedback ────────────────────────────────────────
+  const validate = () => {
+    const e = {};
+    if (!ashuFeelings.trim()) e.ashuFeelings = 'Yeh field zaroori hai! ⚠️';
+    if (!giftFeelings.trim()) e.giftFeelings = 'Yeh field zaroori hai! ⚠️';
+    if (!loveMsg.trim())      e.loveMsg      = 'Yeh field zaroori hai! ⚠️';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  // ── Send email ───────────────────────────────────────────────
   const handleSend = (e) => {
     e.preventDefault();
+    if (!validate()) return;
     setSending(true);
-    const quizLines = answers.map((a, i) =>
-      `Q${i+1}: ${a.q}\n  Answer: ${a.chosen} ${a.correct ? '✅' : '❌'}`
-    ).join('\n\n');
-    const body = `🎂 BIRTHDAY QUIZ RESULTS\nScore: ${score}/${QUESTIONS.length}\n\n${quizLines}\n\n` +
-      `────────────────────\n💝 BABY'S FEEDBACK:\n\nGift Feedback:\n${giftMsg}\n\nTogether:\n${togetherMsg}\n\nMessage:\n${loveMsg}`;
-    window.open(`mailto:ashu286p@gmail.com?subject=🎂 Baby's Birthday Quiz %26 Feedback!&body=${encodeURIComponent(body)}`, '_blank');
-    const end = Date.now() + 3000;
-    const s = () => {
-      confetti({ particleCount: 7, angle: 60,  spread: 70, origin: { x: 0 } });
-      confetti({ particleCount: 7, angle: 120, spread: 70, origin: { x: 1 } });
-      if (Date.now() < end) requestAnimationFrame(s);
+
+    const quizLines = answers.length > 0
+      ? answers.map((a, i) =>
+          `Q${i+1}: ${a.q}\n  ➤ Baby ka jawab: ${a.chosen}  ${a.correct ? '✅ Sahi' : '❌ Galat'}`
+        ).join('\n\n')
+      : 'Quiz nahi khela gaya.';
+
+    const body =
+`╔══════════════════════════════════════╗
+   🎂  BABY KA BIRTHDAY QUIZ + FEELINGS  🎂
+╚══════════════════════════════════════╝
+
+📊 QUIZ SCORE: ${score}/${QUESTIONS.length}
+
+${quizLines}
+
+══════════════════════════════════════
+
+💖 ASHU KE BAARE MEIN FEELINGS:
+${ashuFeelings}
+
+══════════════════════════════════════
+
+🎁 GIFT KAISA LAGA:
+${giftFeelings}
+
+══════════════════════════════════════
+
+💌 ASHU KE LIYE SPECIAL MESSAGE:
+${loveMsg}
+
+══════════════════════════════════════
+Sent with love on Ashu's Birthday 🌸`;
+
+    window.open(
+      `mailto:ashu286p@gmail.com?subject=${encodeURIComponent("🎂 Baby's Birthday Quiz & Feelings for Ashu!")}&body=${encodeURIComponent(body)}`,
+      '_blank'
+    );
+
+    // Fireworks
+    const end = Date.now() + 4000;
+    const shoot = () => {
+      confetti({ particleCount: 8, angle: 60,  spread: 70, origin: { x: 0 }, colors: ['#ff4081','#ffd700','#b340ff'] });
+      confetti({ particleCount: 8, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#ff4081','#ffd700','#40e0ff'] });
+      if (Date.now() < end) requestAnimationFrame(shoot);
     };
-    confetti({ particleCount: 130, spread: 90, origin: { y: 0.55 } });
-    s();
-    setSending(false); setSent(true);
+    confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
+    shoot();
+
+    setSending(false);
+    setSent(true);
   };
+
+  // ============================================================
+  // FEEDBACK FORM (used after result, also standalone)
+  // ============================================================
+  const renderFeedbackForm = () => sent ? (
+    <div className="tq-section" style={{ textAlign: 'center' }}>
+      <span style={{ fontSize: '4rem', display: 'block', marginBottom: '16px', animation: 'floatBob 2s ease-in-out infinite' }}>💌</span>
+      <h2 className="quiz-heading" style={{ color: '#ff90af' }}>Sent with Love!</h2>
+      <p className="quiz-desc">
+        Ashu ko tumhara pyaar aur jawab mil gaya 💕<br />
+        Thank you Baby, itna kuch likhne ke liye! 🥰
+      </p>
+      <div className="sent-badge">
+        <span>📧</span>
+        <span>ashu286p@gmail.com par bheja gaya</span>
+      </div>
+    </div>
+  ) : (
+    <div className="tq-section">
+
+      {/* Header */}
+      <div className="fb-form-header">
+        <span className="fb-form-header-icon">💌</span>
+        <div>
+          <h2 className="fb-form-title">Ashu ko Likho</h2>
+          <p className="fb-form-subtitle">Yeh sab Ashu ke email pe jayega — seedha dil se! 📧</p>
+        </div>
+      </div>
+
+      {/* Important notice */}
+      <div className="fb-important-notice">
+        <span>⚠️</span>
+        <p><strong>Zaroori hai!</strong> Teeno fields fill karna bahut important hai — Ashu ye padh ke bohot khush hogi! 💖</p>
+      </div>
+
+      <form onSubmit={handleSend} noValidate>
+
+        {/* Field 1: Ashu ke baare mein feelings */}
+        <div className="fb-field">
+          <label className="fb-label">
+            <span className="fb-label-icon">💖</span>
+            Ashu ke baare mein kya feel karte ho?
+            <span className="fb-required">*</span>
+          </label>
+          <p className="fb-field-hint">Ashu ke baare mein jo dil mein hai — woh likhiye. Wo kaise hai, kya special hai unme...</p>
+          <textarea
+            className={`fb-textarea ${errors.ashuFeelings ? 'fb-error' : ''}`}
+            rows={3}
+            placeholder="Jaise — 'Ashu mujhe bahut pyaari lagti hai, unka care karna, unki smile...' 💕"
+            value={ashuFeelings}
+            onChange={e => { setAshuFeelings(e.target.value); if (errors.ashuFeelings) setErrors(p => ({...p, ashuFeelings: ''})); }}
+          />
+          {errors.ashuFeelings && <p className="fb-error-msg">{errors.ashuFeelings}</p>}
+        </div>
+
+        {/* Field 2: Gift kaisa laga */}
+        <div className="fb-field">
+          <label className="fb-label">
+            <span className="fb-label-icon">🎁</span>
+            Gift aur yeh birthday surprise kaisa laga?
+            <span className="fb-required">*</span>
+          </label>
+          <p className="fb-field-hint">Ashu ne yeh sab tumhare liye banaya — unhein batao kaisa laga!</p>
+          <textarea
+            className={`fb-textarea ${errors.giftFeelings ? 'fb-error' : ''}`}
+            rows={3}
+            placeholder="Jaise — 'Yeh gift bahut sundar tha, mujhe bahut achha laga jab...' 🎂"
+            value={giftFeelings}
+            onChange={e => { setGiftFeelings(e.target.value); if (errors.giftFeelings) setErrors(p => ({...p, giftFeelings: ''})); }}
+          />
+          {errors.giftFeelings && <p className="fb-error-msg">{errors.giftFeelings}</p>}
+        </div>
+
+        {/* Field 3: Special message */}
+        <div className="fb-field">
+          <label className="fb-label">
+            <span className="fb-label-icon">✍️</span>
+            Ashu ke liye koi special message?
+            <span className="fb-required">*</span>
+          </label>
+          <p className="fb-field-hint">Jo bhi dil mein hai — seedha Ashu ko bolo! Yeh unhe padhke bohot khushi hogi 🌸</p>
+          <textarea
+            className={`fb-textarea ${errors.loveMsg ? 'fb-error' : ''}`}
+            rows={4}
+            placeholder="Jo dil mein ho woh likhiye... bilkul apne tarike se 💖"
+            value={loveMsg}
+            onChange={e => { setLoveMsg(e.target.value); if (errors.loveMsg) setErrors(p => ({...p, loveMsg: ''})); }}
+          />
+          {errors.loveMsg && <p className="fb-error-msg">{errors.loveMsg}</p>}
+        </div>
+
+        {/* Email preview */}
+        <div className="fb-email-preview">
+          <span>📧</span>
+          <span>Quiz ke jawab + yeh teeno baatein milkar <strong>ashu286p@gmail.com</strong> pe jayengi</span>
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="btn-send-email"
+          disabled={sending}
+        >
+          {sending ? '⏳ Bheja ja raha hai...' : '💌 Send to Ashu with Love!'}
+        </button>
+
+      </form>
+    </div>
+  );
 
   // ============================================================
   // TAB: QUIZ
@@ -115,13 +273,13 @@ export default function QuizRoom() {
       <div className="tq-section" style={{ textAlign: 'center' }}>
         <span className="quiz-icon">🧠</span>
         <h2 className="quiz-heading">Birthday Quiz!</h2>
-        <p className="quiz-desc">Baby, kitna jaanta hai Ashu ko? 😄<br/>5 sawal • Jawab Ashu ke email pe jayenge 💌</p>
+        <p className="quiz-desc">Baby, kitna jaanta hai Ashu ko? 😄<br />5 sawal • Baad mein apni feelings bhi likho 💌</p>
         <div className="quiz-rules">
           <p className="quiz-rules-title">📋 How it works:</p>
           <ul>
             <li>5 questions about Ashu</li>
             <li>Pick the right answer</li>
-            <li>At the end, write a message for Ashu</li>
+            <li>At the end, write your feelings for Ashu</li>
             <li>Everything goes to Ashu's email 💌</li>
           </ul>
         </div>
@@ -133,14 +291,16 @@ export default function QuizRoom() {
       const cur = QUESTIONS[qIndex];
       return (
         <div className="tq-section">
-          <div className="qz-progress-bar"><div className="qz-progress-fill" style={{ width: `${(qIndex / QUESTIONS.length) * 100}%` }} /></div>
+          <div className="qz-progress-bar">
+            <div className="qz-progress-fill" style={{ width: `${(qIndex / QUESTIONS.length) * 100}%` }} />
+          </div>
           <p className="qz-counter">Question {qIndex + 1} of {QUESTIONS.length}</p>
           <h3 className="qz-question">{cur.q}</h3>
           <div className="qz-options">
             {cur.options.map(opt => {
               let cls = 'qz-opt';
               if (selected) {
-                if (opt === cur.answer) cls += ' qz-opt-correct';
+                if (opt === cur.answer)  cls += ' qz-opt-correct';
                 else if (opt === selected) cls += ' qz-opt-wrong';
                 else cls += ' qz-opt-dim';
               }
@@ -149,8 +309,12 @@ export default function QuizRoom() {
           </div>
           {selected && (
             <div className="qz-next-row">
-              <p className="qz-feedback-text">{selected === cur.answer ? '✅ Sahi jawab!' : `❌ Sahi answer: ${cur.answer}`}</p>
-              <button className="btn-quiz-start" onClick={handleNext}>{qIndex + 1 < QUESTIONS.length ? 'Next →' : 'See Results 🎉'}</button>
+              <p className="qz-feedback-text">
+                {selected === cur.answer ? '✅ Sahi jawab!' : `❌ Sahi answer: ${cur.answer}`}
+              </p>
+              <button className="btn-quiz-start" onClick={handleNext}>
+                {qIndex + 1 < QUESTIONS.length ? 'Next →' : 'See Results 🎉'}
+              </button>
             </div>
           )}
         </div>
@@ -160,53 +324,41 @@ export default function QuizRoom() {
     if (quizPhase === 'result') {
       const { emoji, msg } = getScoreMsg(score);
       return (
-        <div className="tq-section" style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '3rem', display: 'block', marginBottom: '10px' }}>{emoji}</span>
-          <h2 className="quiz-heading" style={{ color: 'white' }}>{score}/{QUESTIONS.length} Correct!</h2>
-          <p className="quiz-desc" style={{ color: '#ff90af', fontStyle: 'italic' }}>{msg}</p>
+        <div className="tq-section">
+          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '8px' }}>{emoji}</span>
+            <h2 className="quiz-heading" style={{ color: 'white' }}>{score}/{QUESTIONS.length} Correct!</h2>
+            <p className="quiz-desc" style={{ color: '#ff90af', fontStyle: 'italic' }}>{msg}</p>
+          </div>
+
+          {/* Score breakdown */}
           <div className="qz-breakdown">
             {answers.map((a, i) => (
               <div key={i} className="qz-breakdown-row">
-                <span className="qz-breakdown-q">Q{i+1}: {a.q.slice(0, 30)}…</span>
+                <span className="qz-breakdown-q">Q{i+1}: {a.q.slice(0, 32)}…</span>
                 <span className={`qz-breakdown-status ${a.correct ? 'correct' : 'wrong'}`}>{a.correct ? '✅' : '❌'}</span>
               </div>
             ))}
           </div>
-          <button className="btn-next" style={{ marginTop: '16px' }} onClick={() => setQuizPhase('feedback')}>Write to Ashu 💌 →</button>
+
+          {/* Prompt to write feelings */}
+          <div className="result-next-prompt">
+            <p className="result-next-text">
+              🌸 Ab Ashu ke liye apne dil ki baatein likho — yeh bohot zaroori hai!
+            </p>
+            <button className="btn-next" style={{ width: '100%' }} onClick={() => setQuizPhase('feedback')}>
+              ✍️ Likho Ashu ke liye →
+            </button>
+          </div>
         </div>
       );
     }
 
-    if (quizPhase === 'feedback') return sent ? (
-      <div className="tq-section" style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '3.5rem', display: 'block', marginBottom: '14px', animation: 'floatBob 2s ease-in-out infinite' }}>💌</span>
-        <h2 className="quiz-heading" style={{ color: '#ff90af' }}>Sent with Love!</h2>
-        <p className="quiz-desc">Ashu ko tumhari saari baatein mil gayi 💕<br/>Thank you Baby! 🥰</p>
-      </div>
-    ) : (
-      <div className="tq-section">
-        <h2 className="quiz-heading" style={{ textAlign: 'center', marginBottom: '4px', color: 'white' }}>💌 Message for Ashu</h2>
-        <p className="quiz-desc" style={{ textAlign: 'center', marginBottom: '14px' }}>Yeh Ashu ke email pe jayega 🌸</p>
-        <form onSubmit={handleSend}>
-          <div className="fb-field"><label className="fb-label">🎁 Humara gift kaisa laga?</label>
-            <textarea className="fb-textarea" rows={2} placeholder="Apna feedback likhiye..." value={giftMsg} onChange={e => setGiftMsg(e.target.value)} required />
-          </div>
-          <div className="fb-field"><label className="fb-label">💞 Ashu ke saath kaisa lagta hai?</label>
-            <textarea className="fb-textarea" rows={2} placeholder="Apni feelings share kariye..." value={togetherMsg} onChange={e => setTogetherMsg(e.target.value)} required />
-          </div>
-          <div className="fb-field"><label className="fb-label">💖 Ashu ke liye special message?</label>
-            <textarea className="fb-textarea" rows={3} placeholder="Jo dil mein ho woh likhiye... 🌸" value={loveMsg} onChange={e => setLoveMsg(e.target.value)} required />
-          </div>
-          <button type="submit" className="btn-quiz-start" style={{ width: '100%', marginTop: '6px' }} disabled={sending}>
-            {sending ? '⏳ Sending...' : '💌 Send to Ashu!'}
-          </button>
-        </form>
-      </div>
-    );
+    if (quizPhase === 'feedback') return renderFeedbackForm();
   };
 
   // ============================================================
-  // TAB: FEELINGS (Ashu's letter to Baby)
+  // TAB: FEELINGS
   // ============================================================
   const renderFeelings = () => (
     <div className="tq-section feelings-section">
@@ -220,36 +372,30 @@ export default function QuizRoom() {
         <div className="letter-inner">
           <p className="letter-date">Tumhare Birthday par,</p>
           <p className="letter-salutation">Mere Pyaare Baby,</p>
-
           <p className="letter-para">
-            Aaj ka din bohot khaas hai — kyunki aaj tum iss duniya mein aaye the. 
+            Aaj ka din bohot khaas hai — kyunki aaj tum iss duniya mein aaye the.
             Aur main khud ko bohot lucky maanti hoon ki tum meri zindagi mein ho. 🌟
           </p>
-
           <p className="letter-para">
-            Tumhare saath har pal ek naya ehsaas hota hai. Tumhari hansi sunna, 
+            Tumhare saath har pal ek naya ehsaas hota hai. Tumhari hansi sunna,
             tumhare saath waqt bitaana — yeh sab mere liye duniya ki sabse khoobsurat cheez hai. 💕
           </p>
-
           <p className="letter-para">
-            Main chahti hoon ki tum hamesha khush raho, hamesha muskurao. 
+            Main chahti hoon ki tum hamesha khush raho, hamesha muskurao.
             Har mushkil mein main tumhare saath hoon — yeh mera vaada hai. 🤝
           </p>
-
           <p className="letter-para">
-            Tumhe bahut saari duaayein deti hoon — sehat, khushi, kamyabi, 
+            Tumhe bahut saari duaayein deti hoon — sehat, khushi, kamyabi,
             aur jitna pyaar main de sakti hoon, usse bhi zyada. ❤️
           </p>
-
           <p className="letter-closing">Tumhari hamesha,</p>
           <p className="letter-signature">Ashu 💗</p>
         </div>
       </div>
 
-      {/* Baby can also write back */}
       <div className="reply-section">
-        <p className="reply-label">💬 Kuch kehna hai Ashu ko?</p>
-        <p className="reply-hint">Tab 1 → Quiz complete karo aur feedback bhejo! 💌</p>
+        <p className="reply-label">💬 Ab tumhari baari — Quiz tab mein jawab do!</p>
+        <p className="reply-hint">Quiz → Complete karo → Apni feelings likho → Ashu ko bhejo 💌</p>
       </div>
     </div>
   );
@@ -261,11 +407,9 @@ export default function QuizRoom() {
     <div className="tq-section gallery-section">
       <h2 className="gallery-title">📸 Hamare Pal</h2>
       <p className="gallery-subtitle">Kuch khaas yaadein tumhare liye 💕</p>
-
       <div className="gallery-grid">
         {MEMORIES.map(m => (
-          <div key={m.id} className="gallery-card" onClick={() => setOpenMemory(m)}
-            style={{ background: m.gradient }}>
+          <div key={m.id} className="gallery-card" onClick={() => setOpenMemory(m)} style={{ background: m.gradient }}>
             <div className="gallery-card-inner">
               <span className="gallery-emoji">{m.emoji}</span>
               <p className="gallery-card-label">{m.label}</p>
@@ -277,8 +421,6 @@ export default function QuizRoom() {
           </div>
         ))}
       </div>
-
-      {/* Add photos hint */}
       <div className="gallery-add-hint">
         <span>📁</span>
         <p>Ashu apni photos bhi yahan add kar sakti hai! 🌸</p>
@@ -286,7 +428,7 @@ export default function QuizRoom() {
     </div>
   );
 
-  // Memory lightbox
+  // Lightbox
   const renderLightbox = () => openMemory && (
     <div className="lightbox-overlay" onClick={() => setOpenMemory(null)}>
       <div className="lightbox-box" onClick={e => e.stopPropagation()}>
@@ -303,40 +445,27 @@ export default function QuizRoom() {
   );
 
   // ============================================================
-  // RENDER
-  // ============================================================
   return (
     <div className="tab-room">
-
-      {/* ── 3-Tab Switcher ── */}
+      {/* 3-Tab Switcher */}
       <div className="tab-switcher">
         {TABS.map(t => (
-          <button
-            key={t.id}
-            className={`tab-btn ${tab === t.id ? 'tab-btn-active' : ''}`}
-            onClick={() => setTab(t.id)}
-          >
+          <button key={t.id} className={`tab-btn ${tab === t.id ? 'tab-btn-active' : ''}`} onClick={() => setTab(t.id)}>
             <span className="tab-icon">{t.icon}</span>
             <span className="tab-label">{t.label}</span>
           </button>
         ))}
-        {/* Sliding indicator */}
-        <div
-          className="tab-indicator"
-          style={{ left: `${TABS.findIndex(t => t.id === tab) * (100/3)}%`, width: `${100/3}%` }}
-        />
+        <div className="tab-indicator" style={{ left: `${TABS.findIndex(t => t.id === tab) * (100/3)}%`, width: `${100/3}%` }} />
       </div>
 
-      {/* ── Tab Content ── */}
+      {/* Tab Content */}
       <div className="tab-content-card" key={tab}>
         {tab === 'quiz'     && renderQuiz()}
         {tab === 'feelings' && renderFeelings()}
         {tab === 'gallery'  && renderGallery()}
       </div>
 
-      {/* ── Lightbox ── */}
       {renderLightbox()}
-
     </div>
   );
 }

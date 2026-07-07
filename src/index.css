@@ -1514,7 +1514,175 @@ html, body, #root {
 
 
 /* ============================================================
+   ENHANCED FEEDBACK FORM
+   ============================================================ */
+
+.fb-form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.fb-form-header-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(255,64,129,0.6));
+  animation: heartbeat 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.fb-form-title {
+  font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 20%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 3px;
+}
+
+.fb-form-subtitle {
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+/* Important notice banner */
+.fb-important-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(255,64,129,0.1), rgba(179,64,255,0.08));
+  border: 1px solid rgba(255,64,129,0.3);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+.fb-important-notice span:first-child { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.fb-important-notice strong { color: #ff90af; }
+
+/* Field label with icon & required star */
+.fb-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255,200,220,0.9);
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.fb-label-icon { font-size: 1rem; }
+
+.fb-required {
+  color: #ff4081;
+  font-size: 1rem;
+  line-height: 1;
+  margin-left: 2px;
+}
+
+/* Field hint text */
+.fb-field-hint {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 6px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Error state on textarea */
+.fb-textarea.fb-error {
+  border-color: rgba(255,87,87,0.6) !important;
+  box-shadow: 0 0 0 3px rgba(255,87,87,0.12) !important;
+}
+
+.fb-error-msg {
+  font-size: 0.72rem;
+  color: #ff8080;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Email preview bar */
+.fb-email-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.fb-email-preview strong { color: rgba(255,144,175,0.9); }
+
+/* Big send button */
+.btn-send-email {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 28px rgba(255,64,129,0.45);
+  animation: btnPulseRing 2.5s ease-in-out infinite;
+  letter-spacing: 0.4px;
+}
+.btn-send-email:hover    { transform: scale(1.04) translateY(-2px); filter: brightness(1.1); }
+.btn-send-email:disabled { opacity: 0.6; cursor: not-allowed; transform: none; animation: none; }
+
+/* Sent success badge */
+.sent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16,185,129,0.12);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  color: #6ee7b7;
+  margin-top: 12px;
+}
+
+/* Result → next prompt */
+.result-next-prompt {
+  margin-top: 16px;
+  background: linear-gradient(135deg, rgba(255,64,129,0.08), rgba(179,64,255,0.06));
+  border: 1px solid rgba(255,64,129,0.2);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-next-text {
+  font-size: 0.82rem;
+  color: rgba(255,200,220,0.85);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ============================================================
    SCROLLBAR
+
    ============================================================ */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }

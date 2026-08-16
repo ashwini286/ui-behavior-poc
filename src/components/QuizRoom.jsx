@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import emailjs from '@emailjs/browser';
 import heartSunset from '../assets/heart_sunset.png';
 
 // ─── Quiz Questions ────────────────────────────────────────────
@@ -161,50 +162,42 @@ export default function QuizRoom() {
         ).join('\n\n')
       : 'Quiz nahi khela gaya.';
 
-    const body =
-`╔══════════════════════════════════════╗
-   🎂  BABY KA BIRTHDAY QUIZ + FEELINGS  🎂
-╚══════════════════════════════════════╝
-
-📊 QUIZ SCORE: ${score}/${QUESTIONS.length}
-
-${quizLines}
-
-══════════════════════════════════════
-
-💖 ASHU KE BAARE MEIN FEELINGS:
-${ashuFeelings}
-
-══════════════════════════════════════
-
-🎁 GIFT KAISA LAGA:
-${giftFeelings}
-
-══════════════════════════════════════
-
-💌 ASHU KE LIYE SPECIAL MESSAGE:
-${loveMsg}
-
-══════════════════════════════════════
-Sent with love on Ashu's Birthday 🌸`;
-
-    window.open(
-      `mailto:ashu286p@gmail.com?subject=${encodeURIComponent("🎂 Baby's Birthday Quiz & Feelings for Ashu!")}&body=${encodeURIComponent(body)}`,
-      '_blank'
-    );
-
-    // Fireworks
-    const end = Date.now() + 4000;
-    const shoot = () => {
-      confetti({ particleCount: 8, angle: 60,  spread: 70, origin: { x: 0 }, colors: ['#ff4081','#ffd700','#b340ff'] });
-      confetti({ particleCount: 8, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#ff4081','#ffd700','#40e0ff'] });
-      if (Date.now() < end) requestAnimationFrame(shoot);
+    const templateParams = {
+      to_name: "Ashu",
+      from_name: "Baby (Birthday App)",
+      quiz_score: `${score}/${QUESTIONS.length}`,
+      quiz_details: quizLines,
+      ashu_feelings: ashuFeelings,
+      gift_feelings: giftFeelings,
+      special_message: loveMsg,
     };
-    confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
-    shoot();
 
-    setSending(false);
-    setSent(true);
+    // Replace these placeholders with your actual EmailJS IDs
+    emailjs.send(
+      'service_mh57nes', // Service ID
+      'template_wkzlqtb', // Template ID
+      templateParams,
+      'mqRYHohrErMOL3Gsq' // Public Key
+    )
+    .then(() => {
+      // Fireworks
+      const end = Date.now() + 4000;
+      const shoot = () => {
+        confetti({ particleCount: 8, angle: 60,  spread: 70, origin: { x: 0 }, colors: ['#ff4081','#ffd700','#b340ff'] });
+        confetti({ particleCount: 8, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#ff4081','#ffd700','#40e0ff'] });
+        if (Date.now() < end) requestAnimationFrame(shoot);
+      };
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
+      shoot();
+
+      setSending(false);
+      setSent(true);
+    })
+    .catch((err) => {
+      console.error('FAILED...', err);
+      alert('Oops! Email bhejne mein koi problem aayi. Please dobara try karein. 😔');
+      setSending(false);
+    });
   };
 
   // ============================================================

@@ -226,6 +226,8 @@ export default function App() {
   const timerRef = useRef(null);
 
   const startMusic = () => {
+    // Prevent duplicate melody loops when unmuting or re-entering.
+    if (timerRef.current) return;
     if (!ctxRef.current)
       ctxRef.current = new (window.AudioContext || window.webkitAudioContext)();
     const c = ctxRef.current;
@@ -292,7 +294,7 @@ export default function App() {
       {entered && (
         <div className="app-content-wrapper">
           <div key={step} className="room-enter" style={{ width:'100%', display:'flex', justifyContent:'center', overflowY: step === 3 ? 'auto' : 'hidden', maxHeight: step === 3 ? '100%' : undefined }}>
-            {step === 1 && <WelcomeScreen onComplete={() => setStep(2)} />}
+            {step === 1 && <WelcomeScreen muted={muted} onComplete={() => setStep(2)} />}
             {step === 2 && <CakeRoom     onComplete={() => setStep(3)} />}
             {step === 3 && <QuizRoom onComplete={() => setStep(3)} />}
           </div>

@@ -2,35 +2,37 @@ import React, { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import emailjs from '@emailjs/browser';
 import heartSunset from '../assets/heart_sunset.png';
+import { EMAILJS_CONFIG } from '../config';
 
 // ─── Quiz Questions ────────────────────────────────────────────
 const QUESTIONS = [
   {
-    q: "Jab Ashu sad hoti hai, usse sabse zyada kya chahiye hota hai? 🥺",
-    options: ["Thoda time alone 🌙", "Ek tight hug 🤗", "Kisi ka samajhna 🫂", "Bas kisi apne ka saath ❤️"],
-    answer: "Bas kisi apne ka saath ❤️",
+    q: "Ashu ka favourite color kya hai?",
+    options: ["Blue 💙", "Pink 💗", "Purple 💜", "Red ❤️"],
+    answer: "Pink 💗",
   },
   {
-    q: "Ashu ke liye pyaar ka sabse beautiful meaning kya hai? ❤️",
-    options: ["Trust 🤝", "Care 🫶", "Understanding 🥹", "Har situation mein saath rehna ♾️"],
-    answer: "Har situation mein saath rehna ♾️",
+    q: "Ashu ko kaunsa food sabse zyada pasand hai?",
+    options: ["Pizza 🍕", "Biryani 🍛", "Chocolate 🍫", "Pasta 🍝"],
+    answer: "Chocolate 🍫",
   },
   {
-    q: "Agar Ashu ki aankhon mein aansu ho, toh woh kya chahegi? 🥺❤️",
-    options: ["Koi usse chup karaaye 🤗", "Koi usse samjhe 🫂", "Koi bas paas baithe 🥹", "Koi kahe 'main hoon na' ❤️"],
-    answer: "Koi kahe 'main hoon na' ❤️",
+    q: "Agar Ashu ek superhero hoti, uski superpower kya hoti?",
+    options: ["Time Travel ⏰", "Reading Minds 🧠", "Flying 🦋", "Invisibility 👻"],
+    answer: "Reading Minds 🧠",
   },
   {
-    q: "Ashu ke liye relationship mein sabse important kya hai? 💕",
-    options: ["Love ❤️", "Loyalty 🤝", "Understanding 🫂", "Ek dusre ko kabhi na chhodna 🥹"],
-    answer: "Ek dusre ko kabhi na chhodna 🥹",
+    q: "Ashu ka favourite movie genre kya hai?",
+    options: ["Romance 💕", "Comedy 😂", "Thriller 😱", "Animated 🎨"],
+    answer: "Romance 💕",
   },
   {
-    q: "Agar Ashu apni life ki ek wish choose kare, toh kya hogi? 🌙",
-    options: ["Khush rehna 😊", "Apno ko khush dekhna ❤️", "Bahut saari beautiful memories banana 📸", "Jise pyaar kare, uske saath forever rehna ♾️❤️"],
-    answer: "Jise pyaar kare, uske saath forever rehna ♾️❤️",
+    q: "Ashu ke baare mein sabse khaas baat kya hai?",
+    options: ["Uski smile 😊", "Uski care 🤗", "Uska attitude 💁", "Sab kuch 💖"],
+    answer: "Sab kuch 💖",
   },
 ];
+
 function getScoreMsg(score) {
   if (score === 5) return { emoji: "🏆", msg: "Perfect! Tu mujhe bahut acchi tarah jaanta hai Baby! 💕" };
   if (score >= 3) return { emoji: "💗", msg: "Bohot achha! Thoda aur dhyan dena meri baaton par! 😄" };
@@ -163,7 +165,7 @@ export default function QuizRoom() {
 
     const templateParams = {
       to_name: "Ashu",
-      to_email: "ashwini.swe@gmail.com",
+      to_email: EMAILJS_CONFIG.RECEIVER_EMAIL,
       from_name: "Baby (Birthday App)",
       quiz_score: `${score}/${QUESTIONS.length}`,
       quiz_details: quizLines,
@@ -173,11 +175,17 @@ export default function QuizRoom() {
     };
 
     // Replace these placeholders with your actual EmailJS IDs
+    if (!EMAILJS_CONFIG.ENABLED) {
+      setSending(false);
+      alert('Email sending is currently disabled.');
+      return;
+    }
+
     emailjs.send(
-      'service_mh57nes', // Service ID
-      'template_wkzlqtb', // Template ID
+      EMAILJS_CONFIG.SERVICE_ID,
+      EMAILJS_CONFIG.TEMPLATE_ID,
       templateParams,
-      'mqRYHohrErMOL3Gsq' // Public Key
+      EMAILJS_CONFIG.PUBLIC_KEY
     )
     .then(() => {
       // Fireworks

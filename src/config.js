@@ -12,5 +12,5 @@ export const EMAILJS_CONFIG = {
   PUBLIC_KEY: "YOUR_PUBLIC_KEY",
 
   // The email address where you want to receive the alerts (used for the mailto fallback)
-  RECEIVER_EMAIL: "ashu286p@gmail.com", // Default receiver
+  RECEIVER_EMAIL: "ashwini.swe@gmail.com", // Default receiver
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-export default function WelcomeScreen({ onComplete }) {
+export default function WelcomeScreen({ onComplete, muted }) {
   const [hearts, setHearts] = useState([]);
   const audioRef = useRef(null);
 
@@ -19,6 +19,8 @@ export default function WelcomeScreen({ onComplete }) {
 
   // Heartbeat sound — synced with the CSS heartbeat animation (1.2s)
   useEffect(() => {
+    if (muted) return;
+
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     audioRef.current = ctx;
 
@@ -46,7 +48,7 @@ export default function WelcomeScreen({ onComplete }) {
     beat();
     const interval = setInterval(beat, 1200);
     return () => { clearInterval(interval); ctx.close(); };
-  }, []);
+  }, [muted]);
 
   // Heart path (smooth, precise bezier)
   const HEART_PATH = "M50 20 C50 20, 10 0, 5 30 C0 55, 25 78, 50 95 C75 78, 100 55, 95 30 C90 0, 50 20, 50 20 Z";

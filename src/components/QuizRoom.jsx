@@ -164,6 +164,7 @@ export default function QuizRoom() {
 
     const templateParams = {
       to_name: "Ashu",
+      to_email: "ashwini.swe@gmail.com",
       from_name: "Baby (Birthday App)",
       quiz_score: `${score}/${QUESTIONS.length}`,
       quiz_details: quizLines,
@@ -213,7 +214,7 @@ export default function QuizRoom() {
       </p>
       <div className="sent-badge">
         <span>📧</span>
-        <span>ashu286p@gmail.com par bheja gaya</span>
+        <span>ashwini.swe@gmail.com par bheja gaya</span>
       </div>
     </div>
   ) : (
@@ -293,7 +294,7 @@ export default function QuizRoom() {
         {/* Email preview */}
         <div className="fb-email-preview">
           <span>📧</span>
-          <span>Quiz ke jawab + yeh teeno baatein milkar <strong>ashu286p@gmail.com</strong> pe jayengi</span>
+          <span>Quiz ke jawab + yeh teeno baatein milkar <strong>ashwini.swe@gmail.com</strong> pe jayengi</span>
         </div>
 
         {/* Submit */}

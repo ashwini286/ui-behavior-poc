@@ -7,37 +7,21 @@ import { EMAILJS_CONFIG } from '../config';
 // ─── Quiz Questions ────────────────────────────────────────────
 const QUESTIONS = [
   {
-    q: "Jab Ashu sad hoti hai, usse sabse zyada kya chahiye hota hai? 🥺",
-    options: ["Thoda time alone 🌙", "Ek tight hug 🤗", "Kisi ka samajhna 🫂", "Bas kisi apne ka saath ❤️"],
-    answer: "Bas kisi apne ka saath ❤️",
+    q: "If we broke up tomorrow, what would be your biggest regret?",
   },
   {
-    q: "Ashu ke liye pyaar ka sabse beautiful meaning kya hai? ❤️",
-    options: ["Trust 🤝", "Care 🫶", "Understanding 🥹", "Har situation mein saath rehna ♾️"],
-    answer: "Har situation mein saath rehna ♾️",
+    q: "What is the hardest part about being with me?",
   },
   {
-    q: "Agar Ashu ki aankhon mein aansu ho, toh woh kya chahegi? 🥺❤️",
-    options: ["Koi usse chup karaaye 🤗", "Koi usse samjhe 🫂", "Koi bas paas baithe 🥹", "Koi kahe 'main hoon na' ❤️"],
-    answer: "Koi kahe 'main hoon na' ❤️",
+    q: "What do you think I still don't understand about you?",
   },
   {
-    q: "Ashu ke liye relationship mein sabse important kya hai? 💕",
-    options: ["Love ❤️", "Loyalty 🤝", "Understanding 🫂", "Ek dusre ko kabhi na chhodna 🥹"],
-    answer: "Ek dusre ko kabhi na chhodna 🥹",
+    q: "What part of me do you secretly wish would change?",
   },
   {
-    q: "Agar Ashu apni life ki ek wish choose kare, toh kya hogi? 🌙",
-    options: ["Khush rehna 😊", "Apno ko khush dekhna ❤️", "Bahut saari beautiful memories banana 📸", "Jise pyaar kare, uske saath forever rehna ♾️❤️"],
-    answer: "Jise pyaar kare, uske saath forever rehna ♾️❤️",
+    q: "What's something you hope never changes about us?",
   },
 ];
-
-function getScoreMsg(score) {
-  if (score === 5) return { emoji: "🏆", msg: "Perfect! Tu mujhe bahut acchi tarah jaanta hai Baby! 💕" };
-  if (score >= 3) return { emoji: "💗", msg: "Bohot achha! Thoda aur dhyan dena meri baaton par! 😄" };
-  return { emoji: "😂", msg: "Arre Baby, mujhe thoda aur samjho! Par love you phir bhi! 💖" };
-}
 
 // ─── Gallery Memories ──────────────────────────────────────────
 const MEMORIES = [
@@ -108,7 +92,6 @@ export default function QuizRoom() {
   const [qIndex, setQIndex]       = useState(0);
   const [selected, setSelected]   = useState(null);
   const [answers, setAnswers]     = useState([]);
-  const [score, setScore]         = useState(0);
 
   // Feedback state
   const [ashuFeelings, setAshuFeelings] = useState('');
@@ -128,15 +111,12 @@ export default function QuizRoom() {
   ];
 
   // ── Quiz handlers ────────────────────────────────────────────
-  const handleSelect = (opt) => { if (!selected) setSelected(opt); };
-
   const handleNext = () => {
-    if (!selected) return;
+    if (!selected || !selected.trim()) return;
     const cur = QUESTIONS[qIndex];
-    const ok  = selected === cur.answer;
-    const na  = [...answers, { q: cur.q, chosen: selected, correct: ok }];
-    const ns  = score + (ok ? 1 : 0);
-    setAnswers(na); setScore(ns); setSelected(null);
+    const na  = [...answers, { q: cur.q, chosen: selected.trim() }];
+    setAnswers(na);
+    setSelected(null);
     if (qIndex + 1 < QUESTIONS.length) setQIndex(qIndex + 1);
     else setQuizPhase('result');
   };
@@ -159,7 +139,7 @@ export default function QuizRoom() {
 
     const quizLines = answers.length > 0
       ? answers.map((a, i) =>
-          `Q${i+1}: ${a.q}\n  ➤ Baby ka jawab: ${a.chosen}  ${a.correct ? '✅ Sahi' : '❌ Galat'}`
+          `Q${i+1}: ${a.q}\n  ➤ Baby ka jawab: ${a.chosen}`
         ).join('\n\n')
       : 'Quiz nahi khela gaya.';
 
@@ -167,7 +147,7 @@ export default function QuizRoom() {
       to_name: "Ashu",
       to_email: EMAILJS_CONFIG.RECEIVER_EMAIL,
       from_name: "Baby (Birthday App)",
-      quiz_score: `${score}/${QUESTIONS.length}`,
+      quiz_score: 'Open-text reflection quiz',
       quiz_details: quizLines,
       ashu_feelings: ashuFeelings,
       gift_feelings: giftFeelings,
@@ -325,12 +305,12 @@ export default function QuizRoom() {
       <div className="tq-section" style={{ textAlign: 'center' }}>
         <span className="quiz-icon">🧠</span>
         <h2 className="quiz-heading">Birthday Quiz!</h2>
-        <p className="quiz-desc">Baby, kitna jaanta hai Ashu ko? 😄<br />5 sawal • Baad mein apni feelings bhi likho 💌</p>
+        <p className="quiz-desc">Baby, dil se apne honest answers do 💕<br />5 heartfelt questions • Baad mein apni feelings bhi likho 💌</p>
         <div className="quiz-rules">
           <p className="quiz-rules-title">📋 How it works:</p>
           <ul>
             <li>5 questions about Ashu</li>
-            <li>Pick the right answer</li>
+            <li>Write your honest answer for each question</li>
             <li>At the end, write your feelings for Ashu</li>
             <li>Everything goes to Ashu's email 💌</li>
           </ul>
@@ -347,48 +327,42 @@ export default function QuizRoom() {
             <div className="qz-progress-fill" style={{ width: `${(qIndex / QUESTIONS.length) * 100}%` }} />
           </div>
           <p className="qz-counter">Question {qIndex + 1} of {QUESTIONS.length}</p>
-          <h3 className="qz-question">{cur.q}</h3>
-          <div className="qz-options">
-            {cur.options.map(opt => {
-              let cls = 'qz-opt';
-              if (selected) {
-                if (opt === cur.answer)  cls += ' qz-opt-correct';
-                else if (opt === selected) cls += ' qz-opt-wrong';
-                else cls += ' qz-opt-dim';
-              }
-              return <button key={opt} className={cls} onClick={() => handleSelect(opt)}>{opt}</button>;
-            })}
-          </div>
-          {selected && (
-            <div className="qz-next-row">
-              <p className="qz-feedback-text">
-                {selected === cur.answer ? '✅ Sahi jawab!' : `❌ Sahi answer: ${cur.answer}`}
-              </p>
-              <button className="btn-quiz-start" onClick={handleNext}>
-                {qIndex + 1 < QUESTIONS.length ? 'Next →' : 'See Results 🎉'}
-              </button>
-            </div>
-          )}
+           <h3 className="qz-question">{cur.q}</h3>
+           <textarea
+             className="fb-textarea"
+             rows={5}
+             placeholder="Apna honest answer yahan likho..."
+             value={selected || ''}
+             onChange={e => setSelected(e.target.value)}
+           />
+           <div className="qz-next-row">
+             <button
+               className="btn-quiz-start"
+               onClick={handleNext}
+               disabled={!selected || !selected.trim()}
+             >
+               {qIndex + 1 < QUESTIONS.length ? 'Next →' : 'See Results 🎉'}
+             </button>
+           </div>
         </div>
       );
     }
 
     if (quizPhase === 'result') {
-      const { emoji, msg } = getScoreMsg(score);
       return (
         <div className="tq-section">
           <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '8px' }}>{emoji}</span>
-            <h2 className="quiz-heading" style={{ color: 'white' }}>{score}/{QUESTIONS.length} Correct!</h2>
-            <p className="quiz-desc" style={{ color: '#ff90af', fontStyle: 'italic' }}>{msg}</p>
+             <span style={{ fontSize: '3rem', display: 'block', marginBottom: '8px' }}>💌</span>
+             <h2 className="quiz-heading" style={{ color: 'white' }}>Thank you for being honest 💕</h2>
+             <p className="quiz-desc" style={{ color: '#ff90af', fontStyle: 'italic' }}>Tumhare answers Ashu ke saath share kiye jayenge.</p>
           </div>
 
           {/* Score breakdown */}
           <div className="qz-breakdown">
             {answers.map((a, i) => (
               <div key={i} className="qz-breakdown-row">
-                <span className="qz-breakdown-q">Q{i+1}: {a.q.slice(0, 32)}…</span>
-                <span className={`qz-breakdown-status ${a.correct ? 'correct' : 'wrong'}`}>{a.correct ? '✅' : '❌'}</span>
+                 <span className="qz-breakdown-q">Q{i+1}: {a.q}</span>
+                 <span className="qz-breakdown-status correct">💌</span>
               </div>
             ))}
           </div>

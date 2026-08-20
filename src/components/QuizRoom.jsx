@@ -7,29 +7,29 @@ import { EMAILJS_CONFIG } from '../config';
 // ─── Quiz Questions ────────────────────────────────────────────
 const QUESTIONS = [
   {
-    q: "Ashu ka favourite color kya hai?",
-    options: ["Blue 💙", "Pink 💗", "Purple 💜", "Red ❤️"],
-    answer: "Pink 💗",
+    q: "Jab Ashu sad hoti hai, usse sabse zyada kya chahiye hota hai? 🥺",
+    options: ["Thoda time alone 🌙", "Ek tight hug 🤗", "Kisi ka samajhna 🫂", "Bas kisi apne ka saath ❤️"],
+    answer: "Bas kisi apne ka saath ❤️",
   },
   {
-    q: "Ashu ko kaunsa food sabse zyada pasand hai?",
-    options: ["Pizza 🍕", "Biryani 🍛", "Chocolate 🍫", "Pasta 🍝"],
-    answer: "Chocolate 🍫",
+    q: "Ashu ke liye pyaar ka sabse beautiful meaning kya hai? ❤️",
+    options: ["Trust 🤝", "Care 🫶", "Understanding 🥹", "Har situation mein saath rehna ♾️"],
+    answer: "Har situation mein saath rehna ♾️",
   },
   {
-    q: "Agar Ashu ek superhero hoti, uski superpower kya hoti?",
-    options: ["Time Travel ⏰", "Reading Minds 🧠", "Flying 🦋", "Invisibility 👻"],
-    answer: "Reading Minds 🧠",
+    q: "Agar Ashu ki aankhon mein aansu ho, toh woh kya chahegi? 🥺❤️",
+    options: ["Koi usse chup karaaye 🤗", "Koi usse samjhe 🫂", "Koi bas paas baithe 🥹", "Koi kahe 'main hoon na' ❤️"],
+    answer: "Koi kahe 'main hoon na' ❤️",
   },
   {
-    q: "Ashu ka favourite movie genre kya hai?",
-    options: ["Romance 💕", "Comedy 😂", "Thriller 😱", "Animated 🎨"],
-    answer: "Romance 💕",
+    q: "Ashu ke liye relationship mein sabse important kya hai? 💕",
+    options: ["Love ❤️", "Loyalty 🤝", "Understanding 🫂", "Ek dusre ko kabhi na chhodna 🥹"],
+    answer: "Ek dusre ko kabhi na chhodna 🥹",
   },
   {
-    q: "Ashu ke baare mein sabse khaas baat kya hai?",
-    options: ["Uski smile 😊", "Uski care 🤗", "Uska attitude 💁", "Sab kuch 💖"],
-    answer: "Sab kuch 💖",
+    q: "Agar Ashu apni life ki ek wish choose kare, toh kya hogi? 🌙",
+    options: ["Khush rehna 😊", "Apno ko khush dekhna ❤️", "Bahut saari beautiful memories banana 📸", "Jise pyaar kare, uske saath forever rehna ♾️❤️"],
+    answer: "Jise pyaar kare, uske saath forever rehna ♾️❤️",
   },
 ];
 

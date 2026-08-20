@@ -4,12 +4,12 @@
 
 export const EMAILJS_CONFIG = {
   // Set to true to use EmailJS. Set to false to use the mailto: fallback (opens local email client pre-filled).
-  ENABLED: false,
+  ENABLED: true,
 
   // Get these from your EmailJS Dashboard:
-  SERVICE_ID: "YOUR_SERVICE_ID",
-  TEMPLATE_ID: "YOUR_TEMPLATE_ID",
-  PUBLIC_KEY: "YOUR_PUBLIC_KEY",
+  SERVICE_ID: "service_mh57nes",
+  TEMPLATE_ID: "template_wkzlqtb",
+  PUBLIC_KEY: "mqRYHohrErMOL3Gsq",
 
   // The email address where you want to receive the alerts (used for the mailto fallback)
   RECEIVER_EMAIL: "ashwini.swe@gmail.com", // Default receiver
